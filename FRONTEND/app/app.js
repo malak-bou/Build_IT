@@ -104,6 +104,43 @@ createRoomForm.addEventListener("submit", async e => {
 
 
 
+const floatingProfile = document.getElementById("floatingProfile");
+const profileAvatar = document.getElementById("profileAvatar");
+const profileDropdown = document.getElementById("profileDropdown");
+const logoutBtn = document.getElementById("logoutBtn");
+const userNameEl = document.getElementById("userName");
+
+// Example user
+let user = JSON.parse(localStorage.getItem("user"));
+if (!user) {
+  user = { username: "Alice" };
+  localStorage.setItem("user", JSON.stringify(user));
+}
+
+// Fill avatar and dropdown info
+profileAvatar.textContent = user.username.charAt(0).toUpperCase();
+userNameEl.textContent = user.username;
+
+// Toggle dropdown
+profileAvatar.addEventListener("click", () => {
+  profileDropdown.classList.toggle("hidden");
+});
+
+// Logout
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("user");
+  window.location.href = "../index.html";
+});
+
+// Close dropdown if clicking outside
+document.addEventListener("click", (e) => {
+  if (!floatingProfile.contains(e.target)) {
+    profileDropdown.classList.add("hidden");
+  }
+});
+
+
+
 
 const homeView = document.getElementById("homeView");
 const meetingView = document.getElementById("meetingView");

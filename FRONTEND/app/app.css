@@ -396,6 +396,75 @@ body {
 }
 
 
+
+
+
+
+.floating-profile {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.avatar-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+.avatar-circle:hover {
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+.profile-dropdown {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: fit-content;
+  background: #111a2b;
+  border: 1px solid #1e2e4a;
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+.profile-dropdown p {
+  margin: 6px 0;
+  color: #e5e9f0;
+  font-weight: 500;
+}
+
+#logoutBtn {
+  margin-top: 12px;
+  padding: 10px 12px;
+  width: 100%;
+  border: 1px solid #dc2626;
+  border-radius: 10px;
+  background: transparent;
+  color: #dc2626;
+  cursor: pointer;
+}
+
+#logoutBtn:hover {
+  opacity: 0.9;
+}
+
+.hidden {
+  display: none;
+}
+
 /* ================= MEETING ================= */
 
 .meeting-header {

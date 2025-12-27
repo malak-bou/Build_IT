@@ -8,27 +8,25 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
 dotenv.config();
-
-
+const PORT = process.env.PORT || 3000;
+const JWT_SECRET = process.env.JWT_SECRET;
 app.use(express.json())
 
 connectDB();
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "mysecretkey123";
+
 
 
 
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, "../FRONTEND")));
+app.use(express.static(path.join(__dirname, "FRONTEND")));
 
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../FRONTEND/index.html"));
-});
 
-app.post("/signup", async (req,res)=>{
+
+app.post("/signup", async (req, res) => {
     try {
-        const { name , email, password, confirmPassword } = req.body;
+        const { name, email, password, confirmPassword } = req.body;
         if (password !== confirmPassword) {
             return res.status(400).json({ message: "Passwords do not match" });
         }
@@ -40,7 +38,7 @@ app.post("/signup", async (req,res)=>{
         if (existingEmail) {
             return res.status(400).json({ message: "Email already used" });
         }
-        
+
         const hashedPassword = await bcrypt.hash(password, 8);
         const newUser = new User({
             name,
@@ -48,37 +46,40 @@ app.post("/signup", async (req,res)=>{
             password: hashedPassword
         });
         await newUser.save();
-        const token = jwt.sign({ id: newUser._id }, SECRET_KEY, { expiresIn: "1h" });
+        const token = jwt.sign({ id: newUser._id }, JWT_SECRET, { expiresIn: "1h" });
 
-        res.status(201).json({ message: "You successfully registered" ,token,
+        res.status(201).json({
+            message: "You successfully registered", token,
             user: { name: newUser.name, email: newUser.email }
         });
-    }catch (error) {
+    } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
     }
-    
+
 
 });
 
 
-app.post("/signin", async (req,res) =>{
-    try{
-        const { nameOremail, password} = req.body;
+app.post("/signin", async (req, res) => {
+    try {
+        const { nameOremail, password } = req.body;
 
         const user = await User.findOne({
             $or: [{ email: nameOremail }, { name: nameOremail }]
         });
-        if(!user) {
-            return res.status(400).json({message : "account not found"});
+        if (!user) {
+            return res.status(400).json({ message: "account not found" });
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(400).json({ message: "Invalid password" });
 
 
-        const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: "1h" });
-        res.status(200).json({message: "signin successful",token,
-         user: { name: user.name, email: user.email }})
+        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1h" });
+        res.status(200).json({
+            message: "signin successful", token,
+            user: { name: user.name, email: user.email }
+        })
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
@@ -95,7 +96,7 @@ app.get("/profile", async (req, res) => {
         if (!authHeader) return res.status(401).json({ message: "No token provided" });
 
         const token = authHeader.split(" ")[1]; // "Bearer <token>"
-        const decoded = jwt.verify(token, SECRET_KEY);
+        const decoded = jwt.verify(token, JWT_SECRET);
 
         // Find the user by ID from token
         const user = await User.findById(decoded.id).select("-password"); // remove password
@@ -116,7 +117,7 @@ app.post("/rooms", async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
         const token = authHeader.split(" ")[1];
-        const decoded = jwt.verify(token, SECRET_KEY);
+        const decoded = jwt.verify(token, JWT_SECRET);
         const userId = decoded.id;
 
         const { name, type, status } = req.body;
@@ -148,7 +149,7 @@ app.get("/rooms", async (req, res) => {
         let userId = null;
         if (authHeader) {
             const token = authHeader.split(" ")[1];
-            const decoded = jwt.verify(token, SECRET_KEY);
+            const decoded = jwt.verify(token, JWT_SECRET);
             userId = decoded.id;
         }
 
@@ -173,7 +174,7 @@ app.post("/join-room", async (req, res) => {
 
         const authHeader = req.headers.authorization;
         const token = authHeader.split(" ")[1];
-        const decoded = jwt.verify(token, SECRET_KEY);
+        const decoded = jwt.verify(token, JWT_SECRET);
         const userId = decoded.id;
 
         const room = await Room.findOne({ roomId });
@@ -197,7 +198,7 @@ app.post("/join-room", async (req, res) => {
 });
 
 
-app.listen(3000, ()=>{
-    console.log("I am listening in port 3000");
+app.listen(PORT, () => {
+    console.log(`I am listening in port ${PORT}`);
 });
 

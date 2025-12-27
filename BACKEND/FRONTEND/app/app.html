@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>WebRTC Meet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+
+<body>
+
+  <!-- ================= HOME VIEW ================= -->
+  <section id="homeView" class="view">
+
+    <header class="home-header">
+      <!-- top bar -->
+      <div class="home-top">
+        <img src="../assets/5portal-white.png" alt="logo">
+
+        <div class="search-box">
+          <input type="text" placeholder="Search rooms..." id="searchInput" />
+        </div>
+
+        <button class="add-room-btn">+ Add room</button>
+      </div>
+    </header>
+
+    <!-- Create Room Modal -->
+    <div class="modal" id="createRoomModal">
+      <div class="modal-content">
+        <h2>Create a Room</h2>
+
+        <form id="createRoomForm">
+          <label for="roomName">Room Name</label>
+          <input type="text" id="roomName" placeholder="Enter room name" required />
+
+          <label for="roomType">Room Type</label>
+          <select id="roomType" required>
+            <option value="game">Game</option>
+            <option value="language">Language</option>
+            <option value="learning">Learning</option>
+            <option value="business">Business</option>
+            <option value="coding">Coding</option>
+          </select>
+
+          <label for="roomStatus">Status</label>
+          <select id="roomStatus" required>
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </select>
+
+          <div class="modal-buttons">
+            <button type="submit">Create</button>
+            <button type="button" id="cancelModal" style="color: red;">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <div class="visibility-toggle">
+      <span class="option active" data-visibility="public">Rooms</span>
+      <span class="option" data-visibility="private">Join Private Room</span>
+    </div>
+
+    <div class="public">
+
+      <p class="welcom">
+        Select a contact to start a video call
+      </p>
+      <div class="room-filters">
+        <button class="filter-chip active" data-type="all">All</button>
+        <button class="filter-chip" data-type="game">Games</button>
+        <button class="filter-chip" data-type="language">Languages</button>
+        <button class="filter-chip" data-type="learning">Learning</button>
+        <button class="filter-chip" data-type="business">Business</button>
+        <button class="filter-chip" data-type="coding">Coding</button>
+      </div>
+
+      <div class="friends-list" id="roomsList">
+
+      </div>
+    </div>
+    <div class="private">
+      <p class="welcom">
+        Enter a room code to join a private call
+      </p>
+      <div class="private-room-entry">
+        <input type="text" id="roomCodeInput" placeholder="Enter room code" />
+        <button id="joinRoomBtn">Join Room</button>
+      </div>
+    </div>
+      <div class="floating-profile" id="floatingProfile">
+    <span class="avatar-circle" id="profileAvatar">A</span>
+    <div class="profile-dropdown hidden" id="profileDropdown">
+      <p class="user-name" id="userName">User Name</p>
+      <button id="logoutBtn">Logout</button>
+    </div>
+    </div>
+  </section>
+
+
+  <!-- ================= MEETING VIEW ================= -->
+  <section id="meetingView" class="view hidden">
+
+    <header class="meeting-header">
+      <span>Secure Online Call</span>
+    </header>
+
+    <div class="video-area">
+      <video id="remoteVideo" autoplay playsinline></video>
+      <video id="localVideo" autoplay muted playsinline class="local-video"></video>
+    </div>
+
+    <footer class="controls">
+      <button id="micBtn" class="control-btn">Mute</button>
+      <button id="camBtn" class="control-btn">Stop Video</button>
+      <button id="leaveBtn" class="control-btn danger">Leave</button>
+    </footer>
+
+  </section>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

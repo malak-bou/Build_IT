@@ -1,0 +1,112 @@
+ * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #0b1320;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+
+    .container {
+      background-color: #0b1320;
+      padding: 30px 20px;
+      border-radius: 10px;
+      width: 320px;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+      text-align: center;
+    }
+
+    h2 {
+      color: #3b82f6;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin: 12px 0;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid white;
+      outline: none;
+      background-color: #0b1320;
+      color: white;
+      font-size: 14px;
+    }
+
+    .input-group input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 6px rgba(59, 130, 246, 0.5);
+    }
+
+    /* Fancy button */
+    button {
+      position: relative;
+      width: 100%;
+      padding: 12px 0;
+      border-radius: 7px;
+      border: 1px solid #3b82f6;
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 2px;
+      background: transparent;
+      color: #fff;
+      overflow: hidden;
+      cursor: pointer;
+      margin-top: 18px;
+      transition: all 0.2s ease-in;
+    }
+
+    button:hover {
+      background: #3b82f6;
+      box-shadow: 0 0 30px 5px rgba(59, 130, 246, 0.8);
+    }
+
+    button::before {
+      content: '';
+      display: block;
+      width: 0px;
+      height: 86%;
+      position: absolute;
+      top: 7%;
+      left: 0%;
+      opacity: 0;
+      background: #fff;
+      box-shadow: 0 0 50px 30px #fff;
+      transform: skewX(-20deg);
+    }
+
+    button:hover::before {
+      animation: sh02 0.5s linear;
+    }
+
+    @keyframes sh02 {
+      from { opacity: 0; left: 0%; }
+      50% { opacity: 1; }
+      to { opacity: 0; left: 100%; }
+    }
+
+    .login-text {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .login-text a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .login-text a:hover {
+      text-decoration: underline;
+    }

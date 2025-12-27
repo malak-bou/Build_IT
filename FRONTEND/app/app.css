@@ -50,6 +50,12 @@ body {
   gap: 16px;
 }
 
+.home-top img {
+  width: 90px;
+  height: auto;
+}
+
+
 /* title */
 .logo {
   margin: 0;
